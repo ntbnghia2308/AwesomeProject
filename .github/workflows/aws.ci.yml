@@ -1,42 +1,41 @@
-name: Pull Request into Master, Develop and Preprod
-
+name: CI
 on:
   pull_request:
     branches:
       - develop
-
 jobs:
-  #First job
-  install-and-test:
-    runs-on: ubuntu-latest
-
+  CI:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16]
+    env:
+      NODE_ENV: "development"
+    name: Test
     steps:
-      - name: Checkout
+      - name: Checkout 🛎
         uses: actions/checkout@v3
 
-      - name: Use Node.js 14
+      - name: Setup Node 🏗
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: ${{ matrix.node }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
           cache: "npm"
 
-      - name: Install Node modules
-        run: npm ci
+      - name: install dependency
+        run: npm install
 
-      - name: Linting
-        run: npm lint
+      - name: lint check
+        run: npm install
 
-      - name: Unit & Integration tests
-        run: npm test:ci
+      - name: test product
+        run: npm test
 
-      - name: Jest coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2.0.6
-        with:
-          coverage-file: ./jest-report.json
-          base-coverage-file: ./jest-report.json
-
-  # Second Job
-  build-android:
-    needs: install-and-test
-    uses: ./.github/workflows/build-android.yml
-    secrets: inherit
+      - name: say Oye
+        run: echo Ohayo Oni chan :3
