@@ -20,12 +20,12 @@ jobs:
       - name: Setup Node 🏗
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: "14"
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: "14"
           cache: "npm"
 
       - name: install dependency
