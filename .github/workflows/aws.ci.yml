@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: test product
-        run: npm test
+        run: npm run start
 
       - name: say Oye
         run: echo Ohayo Oni chan :3
