@@ -5,11 +5,8 @@ on:
       - develop
 jobs:
   CI:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [16]
+    runs-on: ubuntu-latest
+
     env:
       NODE_ENV: "development"
     name: Test
