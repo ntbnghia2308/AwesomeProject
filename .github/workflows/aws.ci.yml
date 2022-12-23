@@ -34,11 +34,8 @@ jobs:
       - name: lint check
         run: npm install
 
-      - name: Jest coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2.0.6
-        with:
-          coverage-file: ./jest-report.json
-          base-coverage-file: ./jest-report.json
+      - name: test product
+        run: npm test
 
       - name: say Oye
         run: echo Ohayo Oni chan :3
