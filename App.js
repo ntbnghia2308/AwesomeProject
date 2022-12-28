@@ -23,7 +23,7 @@ export default function App() {
         console.log(err);
       });
   };
-
+  //whois
   const axiosApiCall = () => {
     axios({
       method: "GET",
