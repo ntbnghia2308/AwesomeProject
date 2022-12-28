@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: cd android && ./gradlew bundleRelease assembleRelease
+      - name: Test on device
+        run: cd android && ./gradlew connectedAndroidTest
+      - name: Deploy to Google Play
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/app-release.apk
