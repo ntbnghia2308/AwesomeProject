@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Set executable permission on gradlew
+        run: chmod +x ./gradlew
       - name: Install dependencies
         run: cd android && ./gradlew bundleRelease assembleRelease
       - name: Test on device
