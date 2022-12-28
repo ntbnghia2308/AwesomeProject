@@ -1,5 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+task bundleRelease(type: Exec) {
+    workingDir "${rootProject.rootDir}/android"
+    commandLine './gradlew', 'bundleRelease'
+}
 buildscript {
     ext {
         buildToolsVersion = "30.0.2"
