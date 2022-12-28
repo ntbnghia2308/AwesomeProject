@@ -1,41 +1,23 @@
 name: CI
+
 on:
   pull_request:
     branches:
       - develop
+
 jobs:
-  CI:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [16]
-    env:
-      NODE_ENV: "development"
-    name: Test
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@v3
-
-      - name: Setup Node 🏗
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: cd android && ./gradlew bundleRelease assembleRelease
+      - name: Test on device
+        run: cd android && ./gradlew connectedAndroidTest
+      - name: Deploy to Google Play
+        if: success()
+        uses: actions/upload-artifact@v1
         with:
-          node-version: ${{ matrix.node }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: "npm"
-
-      - name: install dependency
-        run: npm install
-
-      - name: lint check
-        run: npm install
-
-      - name: test product
-        run: npm run android
-
-      - name: say Oye
-        run: echo Ohayo Oni chan :3
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/app-release.apk
